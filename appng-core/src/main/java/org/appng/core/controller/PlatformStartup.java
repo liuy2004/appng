@@ -150,8 +150,6 @@ public class PlatformStartup implements ServletContextListener {
 				Platform.Environment.CORE_PLATFORM_CONTEXT);
 		platformCtx.close();
 
-		org.apache.commons.logging.LogFactory.release(platformCtx.getClassLoader());
-
 		HsqlStarter.shutdown((Server) ctx.getAttribute(HsqlStarter.CONTEXT));
 
 		Enumeration<Driver> drivers = DriverManager.getDrivers();
