@@ -58,8 +58,8 @@
 		<springDataJpaVersion>1.11.8.RELEASE</springDataJpaVersion>
 		<springDataEnversVersion>1.1.8.RELEASE</springDataEnversVersion>
 		<queryDslVersion>4.1.4</queryDslVersion>
-		<luceneVersion>6.6.2</luceneVersion>
-		<tikaVersion>1.16</tikaVersion>
+		<luceneVersion>7.2.1</luceneVersion>
+		<tikaVersion>1.17</tikaVersion>
 		<hibernateVersion>5.2.12.Final</hibernateVersion>
 		<slf4jVersion>1.7.25</slf4jVersion>
 		<poiVersion>3.17</poiVersion>
