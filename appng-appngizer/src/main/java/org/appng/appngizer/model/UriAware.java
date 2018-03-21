@@ -46,12 +46,7 @@ public interface UriAware {
 
 
 	default String encode(String name) {
-		try {
-			return UriUtils.encode(name, StandardCharsets.UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			// never ever
-		}
-		return name;
+		return UriUtils.encode(name, StandardCharsets.UTF_8);
 	}
 
 	String getSelf();
