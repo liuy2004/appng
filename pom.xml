@@ -57,13 +57,13 @@
 		<springDataVersion>1.13.8.RELEASE</springDataVersion>
 		<springDataJpaVersion>1.11.8.RELEASE</springDataJpaVersion>
 		<springDataEnversVersion>1.1.8.RELEASE</springDataEnversVersion>
-		<queryDslVersion>4.1.4</queryDslVersion>
+		<queryDslVersion>4.2.0</queryDslVersion>
 		<luceneVersion>7.2.1</luceneVersion>
 		<tikaVersion>1.17</tikaVersion>
-		<hibernateVersion>5.2.12.Final</hibernateVersion>
+		<hibernateVersion>5.2.14.Final</hibernateVersion>
 		<slf4jVersion>1.7.25</slf4jVersion>
 		<poiVersion>3.17</poiVersion>
-		<jacksonVersion>2.9.2</jacksonVersion>
+		<jacksonVersion>2.9.4</jacksonVersion>
 		<jackson1Version>1.9.13</jackson1Version>
 		<tomcat.version>8.5.23</tomcat.version>
 		<servlet.version>3.1.0</servlet.version>
@@ -766,7 +766,7 @@
 			<dependency>
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
-				<version>1.11.1</version>
+				<version>1.11.2</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
@@ -793,7 +793,7 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.6</version>
+				<version>3.7</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-codec</groupId>
@@ -803,7 +803,7 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
-				<version>1.15</version>
+				<version>1.16.1</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-collections</groupId>
@@ -813,7 +813,7 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-text</artifactId>
-				<version>1.1</version>
+				<version>1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
@@ -824,7 +824,7 @@
 			<!-- BEGIN HIBERNATE + JPA -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
+				<artifactId>hibernate-core</artifactId>
 				<version>${hibernateVersion}</version>
 				<exclusions>
 					<exclusion>
@@ -845,17 +845,17 @@
 			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.1-api</artifactId>
-				<version>1.0.0.Final</version>
+				<version>1.0.2.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.validator</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>6.0.4.Final</version>
+				<version>6.0.8.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
-				<version>2.0.0.Final</version>
+				<version>2.0.1.Final</version>
 			</dependency>
 			<!-- END HIBERNATE + JPA -->
 
@@ -883,12 +883,12 @@
 			<dependency>
 				<groupId>com.zaxxer</groupId>
 				<artifactId>HikariCP</artifactId>
-				<version>2.7.2</version>
+				<version>2.7.8</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>23.3-jre</version>
+				<version>24.1-jre</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.saxon</groupId>
@@ -958,7 +958,7 @@
 			<dependency>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-core</artifactId>
-				<version>4.2.0</version>
+				<version>5.0.7</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
@@ -973,12 +973,12 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
-				<version>4.4.8</version>
+				<version>4.4.9</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.5.3</version>
+				<version>4.5.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tomcat</groupId>
