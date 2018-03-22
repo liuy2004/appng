@@ -46,8 +46,8 @@ import org.springframework.data.repository.history.support.RevisionEntityInforma
  * </pre>
  * 
  * See <a href=
- * "http://docs.spring.io/spring-data/jpa/docs/1.11.0.RELEASE/reference/html/#repositories.custom-behaviour-for-all-repositories">
- * 4.6.2. Adding custom behavior to all repositories</a> from the reference Documentation for further details.
+ * "https://docs.spring.io/spring-data/jpa/docs/2.0.5.RELEASE/reference/html/#repositories.customize-base-repository">Customize
+ * the base repository</a> from Spring Data's reference Documentation for further details.ils.
  * 
  * @author Claus Stuemke
  * 

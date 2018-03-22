@@ -32,7 +32,7 @@ import org.springframework.data.repository.NoRepositoryBean;
  *            the type of the Id of the domain class
  * 
  * @see SearchRepository
- * @see QueryDslPredicateExecutor
+ * @see QuerydslPredicateExecutor
  */
 @NoRepositoryBean
 public interface QueryDslSearchRepository<T, ID extends Serializable> extends SearchRepository<T, ID>,
