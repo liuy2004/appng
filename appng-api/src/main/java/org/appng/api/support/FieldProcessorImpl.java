@@ -282,7 +282,7 @@ public final class FieldProcessorImpl implements FieldProcessor, Serializable {
 
 	private Sort getSort() {
 		Sort sort = null;
-		if (pageable.getSort() != null) {
+		if (!Sort.unsorted().equals(pageable.getSort())) {
 			List<Order> orders = new ArrayList<Sort.Order>();
 			List<FieldDef> activeSortFields = new ArrayList<FieldDef>();
 			for (Order order : pageable.getSort()) {
