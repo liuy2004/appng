@@ -17,6 +17,7 @@ package org.appng.persistence.repository;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -113,6 +114,15 @@ public interface SearchRepository<T, ID extends Serializable> extends JpaReposit
 	 * @return a {@link Page} containing the result
 	 */
 	Page<T> search(SearchQuery<T> searchQuery, Pageable pageable);
+
+	/**
+	 * Performs a search with the given {@link SearchQuery}.
+	 * 
+	 * @param searchQuery
+	 *            the {@link SearchQuery}
+	 * @return a {@link List} containing the result
+	 */
+	List<T> search(SearchQuery<T> searchQuery);
 
 	/**
 	 * Returns all previous revisions (starting with the newest) for the entity with the given ID (if the domain-class

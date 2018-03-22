@@ -55,12 +55,12 @@ public class SortParamSupportTest {
 	public void testWithPageParams() {
 		Mockito.when(sessionMap.get(SESS_PARAM_ID)).thenReturn("type:asc;lastname:asc;name:asc;id:asc;page:4;pageSize:5");
 		Pageable fromSession = sortParamSupport.getPageable(null);
-		Assert.assertEquals(new Sort(Direction.ASC, "type", "lastname", "name", "id"), fromSession.getSort());
+		Assert.assertEquals(Sort.by(Direction.ASC, "type", "lastname", "name", "id"), fromSession.getSort());
 		Assert.assertEquals(4, fromSession.getPageNumber());
 		Assert.assertEquals(5, fromSession.getPageSize());
 		Mockito.when(sessionMap.get(SESS_PARAM_ID)).thenReturn("type:desc");
 		Pageable pageable = sortParamSupport.getPageable("name:desc;lastname:desc;id:desc;page:5;pageSize:20");
-		Assert.assertEquals(new Sort(Direction.DESC, "type", "name", "lastname", "id"), pageable.getSort());
+		Assert.assertEquals(Sort.by(Direction.DESC, "type", "name", "lastname", "id"), pageable.getSort());
 		Assert.assertEquals(5, pageable.getPageNumber());
 		Assert.assertEquals(20, pageable.getPageSize());
 

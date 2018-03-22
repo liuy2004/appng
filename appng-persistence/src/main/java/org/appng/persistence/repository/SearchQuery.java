@@ -500,7 +500,9 @@ public class SearchQuery<T> {
 	 * @return the result-list
 	 */
 	public final List<T> execute(EntityManager entityManager) {
-		return execute(null, entityManager).getContent();
+		TypedQuery<T> query = getQuery(entityManager, getQueryBuilder());
+		setQueryParamaters(query);
+		return query.getResultList();
 	}
 
 	/**
@@ -508,7 +510,7 @@ public class SearchQuery<T> {
 	 * any) for paging and sorting the results.
 	 * 
 	 * @param pageable
-	 *            a {@link Pageable} (optional)
+	 *            a {@link Pageable} (may be newly assigned if the requested page does not exist!)
 	 * @param entityManager
 	 *            the {@link EntityManager}
 	 * @return the result-{@link Page}
@@ -516,6 +518,58 @@ public class SearchQuery<T> {
 	 * @see SearchRepository#search(SearchQuery, Pageable)
 	 */
 	public final Page<T> execute(Pageable pageable, EntityManager entityManager) {
+		StringBuilder queryBuilder = getQueryBuilder();
+		TypedQuery<Long> countQuery = entityManager.createQuery(
+				"select count(" + (distinct ? "distinct" : "") + " e) " + queryBuilder.toString(), Long.class);
+		appendOrder(pageable, queryBuilder, appendEntityAlias ? "e" : "");
+		TypedQuery<T> query = getQuery(entityManager, queryBuilder);
+
+		setQueryParamaters(countQuery, query);
+
+		Long total = null;
+		if (null != pageable) {
+			total = countQuery.getSingleResult();
+			if (pageable.getOffset() >= total) {
+				pageable = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
+			}
+			query.setFirstResult((int) pageable.getOffset());
+			query.setMaxResults(pageable.getPageSize());
+			List<T> content = query.getResultList();
+			return new PageImpl<T>(content, pageable, total);
+		} else {
+			List<T> content = query.getResultList();
+			total = new Integer(content.size()).longValue();
+			pageable = PageRequest.of(0, total.intValue() > 0 ? total.intValue() : 1);
+			return new PageImpl<T>(content, pageable, total);
+		}
+	}
+
+	private TypedQuery<T> getQuery(EntityManager entityManager, StringBuilder sb) {
+		TypedQuery<T> query = entityManager
+				.createQuery("select " + (distinct ? "distinct" : "") + " e " + sb.toString(), domainClass);
+		return query;
+	}
+
+	private void setQueryParamaters(TypedQuery<?>... queries) {
+		for (int i = 0; i < criteria.size(); i++) {
+			SearchCriteria criterion = criteria.get(i);
+			Object value = criterion.getValue();
+			if (null != value) {
+				for (TypedQuery<?> query : queries) {
+					query.setParameter(i, value);
+				}
+			}
+		}
+		for (Clause clause : andClauses) {
+			for (Entry<String, Object> entry : clause.params.entrySet()) {
+				for (TypedQuery<?> query : queries) {
+					query.setParameter(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+	}
+
+	private StringBuilder getQueryBuilder() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("from " + domainClass.getSimpleName() + " e");
 		if (StringUtils.isNotBlank(joinQuery)) {
@@ -538,43 +592,7 @@ public class SearchQuery<T> {
 			sb.append(" " + clause.clause + " ");
 			addWhere = false;
 		}
-
-		String distinctPart = distinct ? "distinct" : "";
-		TypedQuery<Long> countQuery = entityManager.createQuery("select count(" + distinctPart + " e) " + sb.toString(),
-				Long.class);
-		appendOrder(pageable, sb, appendEntityAlias ? "e" : "");
-		TypedQuery<T> query = entityManager.createQuery("select " + distinctPart + " e " + sb.toString(), domainClass);
-		for (int i = 0; i < criteria.size(); i++) {
-			SearchCriteria criterion = criteria.get(i);
-			Object value = criterion.getValue();
-			if (null != value) {
-				countQuery.setParameter(i, value);
-				query.setParameter(i, value);
-			}
-		}
-		for (Clause clause : andClauses) {
-			for (Entry<String, Object> entry : clause.params.entrySet()) {
-				countQuery.setParameter(entry.getKey(), entry.getValue());
-				query.setParameter(entry.getKey(), entry.getValue());
-			}
-		}
-
-		Long total = null;
-		if (null != pageable) {
-			total = countQuery.getSingleResult();
-			if (pageable.getOffset() >= total) {
-				pageable = new PageRequest(0, pageable.getPageSize(), pageable.getSort());
-			}
-			query.setFirstResult(pageable.getOffset());
-			query.setMaxResults(pageable.getPageSize());
-		}
-		List<T> content = query.getResultList();
-		if (null == total) {
-			total = new Integer(content.size()).longValue();
-		}
-
-		Page<T> page = new PageImpl<T>(content, pageable, total);
-		return page;
+		return sb;
 	}
 
 	enum Operand {

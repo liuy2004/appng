@@ -52,11 +52,11 @@
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springVersion>5.0.4.RELEASE</springVersion>
-		<springWSVersion>2.4.0.RELEASE</springWSVersion>
+		<springWSVersion>3.0.1.RELEASE</springWSVersion>
 		<springSecurityVersion>4.2.3.RELEASE</springSecurityVersion>
-		<springDataVersion>1.13.8.RELEASE</springDataVersion>
-		<springDataJpaVersion>1.11.8.RELEASE</springDataJpaVersion>
-		<springDataEnversVersion>1.1.8.RELEASE</springDataEnversVersion>
+		<springDataVersion>2.0.5.RELEASE</springDataVersion>
+		<springDataJpaVersion>2.0.5.RELEASE</springDataJpaVersion>
+		<springDataEnversVersion>2.0.5.RELEASE</springDataEnversVersion>
 		<queryDslVersion>4.2.0</queryDslVersion>
 		<luceneVersion>7.2.1</luceneVersion>
 		<tikaVersion>1.17</tikaVersion>

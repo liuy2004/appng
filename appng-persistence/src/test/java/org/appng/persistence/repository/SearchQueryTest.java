@@ -129,7 +129,7 @@ public class SearchQueryTest {
 		testEntity.setBooleanValue(true);
 		SearchQuery<TestEntity> searchQuery = getSearchQuery(false);
 		searchQuery.isNotNull(BOOLEAN_VALUE);
-		PageRequest pageable = new PageRequest(5, 1000, new Sort(new Sort.Order(Direction.ASC, NAME), new Sort.Order(
+		PageRequest pageable = PageRequest.of(5, 1000, Sort.by(new Sort.Order(Direction.ASC, NAME), new Sort.Order(
 				Direction.ASC, INTEGER_VALUE)));
 		Page<TestEntity> page = searchQuery.execute(pageable, em);
 		Assert.assertEquals(testEntity, page.iterator().next());

@@ -88,7 +88,7 @@ public class SearchRepositoryImpl<T, ID extends Serializable> extends SimpleJpaR
 	public Page<T> search(Pageable pageable) {
 		Page<T> page = super.findAll(pageable);
 		if (pageable.getOffset() >= page.getTotalElements()) {
-			Pageable newPageable = new PageRequest(0, pageable.getPageSize(), pageable.getSort());
+			Pageable newPageable = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
 			page = super.findAll(newPageable);
 		}
 		return page;
@@ -122,9 +122,9 @@ public class SearchRepositoryImpl<T, ID extends Serializable> extends SimpleJpaR
 		}
 		Long total = countQuery.getSingleResult();
 		if (pageable.getOffset() >= total) {
-			pageable = new PageRequest(0, pageable.getPageSize(), pageable.getSort());
+			pageable = PageRequest.of(0, pageable.getPageSize(), pageable.getSort());
 		}
-		query.setFirstResult(pageable.getOffset());
+		query.setFirstResult((int) pageable.getOffset());
 		query.setMaxResults(pageable.getPageSize());
 		List<T> content = query.getResultList();
 		return new PageImpl<T>(content, pageable, total);
@@ -132,6 +132,10 @@ public class SearchRepositoryImpl<T, ID extends Serializable> extends SimpleJpaR
 
 	public Page<T> search(SearchQuery<T> searchQuery, Pageable pageable) {
 		return searchQuery.execute(pageable, entityManager);
+	}
+
+	public List<T> search(SearchQuery<T> searchQuery) {
+		return searchQuery.execute(entityManager);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -206,7 +210,7 @@ public class SearchRepositoryImpl<T, ID extends Serializable> extends SimpleJpaR
 		if (results.isEmpty()) {
 			return true;
 		} else if (id != null) {
-			T current = findOne(id);
+			T current = getOne(id);
 			return results.size() == 1 && current.equals(results.get(0));
 		} else {
 			return false;

@@ -68,7 +68,7 @@ public class SearchRepositoryTest {
 		TestEntity t3 = new TestEntity();
 		t3.setName("name3");
 		t3.setIntegerValue(3);
-		repo.save(Arrays.asList(t1, t2, t3));
+		repo.saveAll(Arrays.asList(t1, t2, t3));
 
 		Assert.assertEquals(1, repo.getRevisionNumber(t1.getId()));
 		Assert.assertEquals(1, repo.getRevisionNumber(t2.getId()));
@@ -78,8 +78,8 @@ public class SearchRepositoryTest {
 		searchQuery.startsWith("name", "na");
 		searchQuery.greaterEquals("integerValue", 1);
 
-		sort = new Sort(new Sort.Order(Direction.DESC, "name"), new Sort.Order(Direction.DESC, "integerValue"));
-		pageable = new PageRequest(0, 10, sort);
+		sort = Sort.by(new Sort.Order(Direction.DESC, "name"), new Sort.Order(Direction.DESC, "integerValue"));
+		pageable = PageRequest.of(0, 10, sort);
 	}
 
 	@After
@@ -113,7 +113,7 @@ public class SearchRepositoryTest {
 
 	@Test
 	public void testQueryStringPageableParamsXAlias() {
-		Pageable pageRequest = new PageRequest(0, pageable.getPageSize(), new Sort(Direction.DESC, "name"));
+		Pageable pageRequest = PageRequest.of(0, pageable.getPageSize(), Sort.by(Direction.DESC, "name"));
 		Page<TestEntity> result = repo.search("from TestEntity x where x.id > ?1", "x", pageRequest, -1);
 		validate(result, pageRequest.getSort());
 	}
@@ -130,14 +130,14 @@ public class SearchRepositoryTest {
 	@Test
 	public void testSearchQueryPageableNoAlias() {
 		searchQuery.setAppendEntityAlias(false);
-		Pageable pageRequest = new PageRequest(0, pageable.getPageSize(), new Sort(Direction.DESC, "e.name"));
+		Pageable pageRequest = PageRequest.of(0, pageable.getPageSize(), Sort.by(Direction.DESC, "e.name"));
 		Page<TestEntity> result = repo.search(searchQuery, pageRequest);
 		validate(result, pageRequest.getSort());
 	}
 
 	@Test
 	public void testSearchPageable() {
-		Page<TestEntity> page = repo.search(new PageRequest(5, 2, sort));
+		Page<TestEntity> page = repo.search(PageRequest.of(5, 2, sort));
 		Assert.assertEquals(0, page.getNumber());
 		Assert.assertEquals(2, page.getNumberOfElements());
 		Assert.assertEquals(2, page.getSize());
@@ -169,11 +169,11 @@ public class SearchRepositoryTest {
 	}
 
 	private void createEntityRevisions() {
-		TestEntity e = repo.findOne(3);
+		TestEntity e = repo.findById(3).get();
 		e.setBooleanValue(true);
 		repo.save(e);
 
-		e = repo.findOne(3);
+		e = repo.findById(3).get();
 		e.setName("foo");
 		repo.save(e);
 	}
@@ -233,7 +233,7 @@ public class SearchRepositoryTest {
 
 	@Test
 	public void testSearchQuery() {
-		Page<TestEntity> page = repo.search(repo.createSearchQuery().like("name", "%name%"), new PageRequest(0, 10));
+		Page<TestEntity> page = repo.search(repo.createSearchQuery().like("name", "%name%"), PageRequest.of(0, 10));
 		Assert.assertEquals(3L, page.getTotalElements());
 	}
 
